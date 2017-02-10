@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Net.Http;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,10 +18,14 @@ namespace WeatherSensor
 	{
 		//A class which wraps the barometric sensor
 		BME280Sensor BME280;
+		static HttpClient client = new HttpClient()
+		{
+			BaseAddress = new Uri("http://gliding.azurewebsites.net/api/weather")
+		};
 
 		public MainPage()
 		{
-			//this.InitializeComponent();
+			this.InitializeComponent();
 		}
 
 		// This method will be called by the application framework when the page is first loaded
@@ -60,7 +65,7 @@ namespace WeatherSensor
 					Debug.WriteLine("Altitude: " + altitude.ToString() + " m");
 					Debug.WriteLine("");
 
-					//PostWeatherData(temp, humidity, pressure, altitude);
+					await PostWeatherDataAsync(temp, humidity, pressure, altitude);
 				}
 			}
 			catch (Exception ex)
@@ -69,12 +74,19 @@ namespace WeatherSensor
 			}
 		}
 		
-		public void PostWeatherData(float temp, float humidity, float pressure, float altitude)
+		private async Task PostWeatherDataAsync(float temp, float humidity, float pressure, float altitude)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
-				client.PutAsync("", null);
+				var data = new WeatherData
+				{
+					Temperature = temp,
+					Humidity = humidity,
+					Pressure = pressure,
+					Altitude = altitude
+				};
+
+				var response = await client.PostAsJsonAsync("", data);
 			}
 			catch (Exception e)
 			{

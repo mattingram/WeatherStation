@@ -1,8 +1,8 @@
 ﻿<Application
-    x:Class="Lesson_203V2.App"
+    x:Class="WeatherSensor.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Lesson_203V2"
+    xmlns:local="using:WeatherSensor"
     RequestedTheme="Light">
 
 </Application>
