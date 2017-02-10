@@ -19,7 +19,7 @@ namespace WeatherService.Controllers
         [HttpGet]
         public IEnumerable<WeatherData> Get()
         {
-            return _context.Weather.ToList();
+            return _context.Weather.ToList().OrderByDescending(w => w.DateAdded).Take(100);
         }
 
         // POST api/weather
